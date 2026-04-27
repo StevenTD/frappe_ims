@@ -84,8 +84,13 @@ services:
           --db-root-username=root \
           --db-root-password=admin \
           --install-app erpnext \
-          --install-app hrms \
+          --install-app attendance_app \
           --set-default frontend;
+        bench --site frontend set-config user_type_limits \
+          '{"Employee Self Service": 9999, "System User": 9999, "Website User": 9999}'
+
+        bench --site frontend install-app hrms;
+
   db:
     image: mariadb:10.6
     networks:
