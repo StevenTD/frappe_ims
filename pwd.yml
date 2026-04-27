@@ -31,6 +31,7 @@ services:
       - >
         ls -1 apps > sites/apps.txt;
         echo "attendance_app" >> sites/apps.txt;
+        echo "hrms" >> sites/apps.txt;
         bench set-config -g db_host $$DB_HOST;
         bench set-config -gp db_port $$DB_PORT;
         bench set-config -g redis_cache "redis://$$REDIS_CACHE";
@@ -78,8 +79,13 @@ services:
           fi
         done;
         echo "sites/common_site_config.json found";
-        bench new-site --mariadb-user-host-login-scope='%' --admin-password=admin --db-root-username=root --db-root-password=admin --install-app erpnext --set-default frontend;
-
+        bench new-site --mariadb-user-host-login-scope='%' \
+          --admin-password=admin \
+          --db-root-username=root \
+          --db-root-password=admin \
+          --install-app erpnext \
+          --install-app hrms \
+          --set-default frontend;
   db:
     image: mariadb:10.6
     networks:
